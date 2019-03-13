@@ -1,8 +1,8 @@
-Gabriel Lévesque-Duval:
--Gérer les commandes incorrectes.
+Gabriel LÃ©vesque-Duval:
+-GÃ©rer les commandes incorrectes.
 -Ne pas afficher les factures de 0$.
 
 Ilyas Elamraoui:
 -Afficher la sortie dans le terminal.
 -Ajouter la date et heure de la facture dans le nom du fichier.
--Appliquer les taxes u prix des factures.
+-Appliquer les taxes du prix des factures.
