@@ -1,0 +1,12 @@
+Spécifications:
+
+Gérer les commandes incorrectes:
+	- Gérer quand le nom du client n'existe pas à l'aide de la méthode chercherClient()
+	- Gérer quand le plat n'existe pas à l'aide de la méthode chercherPlat()
+	- Gérer quand le format du client est incorrect
+	- Gérer quand le format du plat est incorrect 
+	- Gérer quand le format de la commande est incorrect
+	- Gérer que les chiffres ne sont pas érronés pour la quantité et le prix des plats (ex: chiffres négatifs)
+
+Gérer les facture de 0$:
+	-S'assurer de ne pas afficher les facture de 0$ dans le terminal ou dans le fichier de facture
