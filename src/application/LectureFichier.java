@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.text.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class LectureFichier {
 	
@@ -80,8 +82,10 @@ public class LectureFichier {
 
 	public void ecrireFacture() throws IOException {
 		
-		Path cheminEcriture = Paths.get( "Facture.txt" );
-		BufferedWriter ficEcriture = Files.newBufferedWriter( cheminEcriture, Charset.forName( "UTF-8" ) );
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern( "yyyy-MM-dd_HH'h'mm" );
+        LocalDateTime date = LocalDateTime.now();
+        Path cheminEcriture = Paths.get( "Facture-du-" + dtf.format( date ) + ".txt" );
+        BufferedWriter ficEcriture = Files.newBufferedWriter( cheminEcriture, Charset.forName( "UTF-8" ) );
 		
 		double totalFacture;
 		ficEcriture.write( "Bienvenue chez Barette!" );
