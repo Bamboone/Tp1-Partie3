@@ -88,27 +88,32 @@ public class LectureFichier {
         BufferedWriter ficEcriture = Files.newBufferedWriter( cheminEcriture, Charset.forName( "UTF-8" ) );
 		
 		double totalFacture;
-		ficEcriture.write( "Bienvenue chez Barette!" );
-		ficEcriture.newLine();
-		ficEcriture.write( "\nFactures:" );
-		ficEcriture.newLine();
 
 		NumberFormat formatArgent = NumberFormat.getCurrencyInstance();
 
-		for ( Client client : listeClients ) {
+		ficEcriture.write( "Bienvenue chez Barette!" );
+        ficEcriture.newLine();
+        ficEcriture.write( "\nFactures:" );
+        ficEcriture.newLine();
+        System.out.println( "Bienvenue chez Barette!" );
+        System.out.println( "\nFactures:" );
 
-			totalFacture = 0;
+        for ( Client client : listeClients ) {
 
-			for ( Commande commande : client.getListeCommande() ) {
+            totalFacture = 0;
 
-				totalFacture += commande.calculerPrix();
-			}
+            for ( Commande commande : client.getListeCommande() ) {
 
-			ficEcriture.write( client.getNom() + " " + formatArgent.format( totalFacture ) );
-			ficEcriture.newLine();
-		}
-		
-		ficEcriture.close();
+                totalFacture += commande.calculerPrix();
+            }
+            if ( totalFacture != 0 ) {
+                ficEcriture.write( client.getNom() + " " + formatArgent.format( totalFacture ) );
+                ficEcriture.newLine();
+                System.out.println( client.getNom() + " " + formatArgent.format( totalFacture ) );
+            }
+        }
+
+        ficEcriture.close();
 	}
 
 	public void affecterCommandesAClients() {
