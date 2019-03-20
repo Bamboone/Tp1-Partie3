@@ -19,85 +19,88 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class LectureFichierTest {
 
 	private LectureFichier lecture = new LectureFichier();
-	
+
 	@Mock
 	Client client;
 	Plat plat;
 	Commande commande;
-	
+
 	@Before
 	public void setUp() {
 		lecture.listeClients = new ArrayList<>();
 		lecture.listeCommandes = new ArrayList<>();
 		lecture.listePlats = new ArrayList<>();
 	}
-	
+
 	@Test
 	public void testClientExistePas() {
-		lecture.listeClients.add(new Client("Paul"));
-		assertFalse(lecture.chercherClient("Jean"));
-		
+		lecture.listeClients.add( new Client( "Paul" ) );
+		assertFalse( lecture.chercherClient( "Jean" ) );
+
 	}
-	
+
 	@Test
 	public void testClientExiste() {
-		lecture.listeClients.add(new Client("Paul"));
-		assertTrue(lecture.chercherClient("Paul"));
-		
+		lecture.listeClients.add( new Client( "Paul" ) );
+		assertTrue( lecture.chercherClient( "Paul" ) );
+
 	}
-	
+
 	@Test
 	public void TestPlatExistePas() {
-		lecture.listePlats.add(new Plat("Poutine", 10));
-		assertFalse(lecture.chercherPlat(new Plat("Pâtes", 8)));
+		lecture.listePlats.add( new Plat( "Poutine", 10 ) );
+		assertFalse( lecture.chercherPlat( new Plat( "Pâtes", 8 ) ) );
 	}
-	
+
 	@Test
 	public void TestPlatExiste() {
-		lecture.listePlats.add(new Plat("Poutine", 10));
-		assertTrue(lecture.chercherPlat(lecture.listePlats.get( 0 )));
+		lecture.listePlats.add( new Plat( "Poutine", 10 ) );
+		assertTrue( lecture.chercherPlat( lecture.listePlats.get( 0 ) ) );
 	}
-	
+
 	@Test(expected = NumberFormatException.class)
 	public void testFormatPlatPrixIncorrect() throws IOException {
-		lecture.lectureListe("testFormatPlatPrixIncorrect.txt");
+		lecture.lectureListe( "testFormatPlatPrixIncorrect.txt" );
 	}
-	
+
 	@Test
 	public void testFormatPlatIncorrect() throws IOException {
-		lecture.lectureListe("testFormatPlatIncorrect.txt");
-		assertTrue(lecture.listeErreurs.contains( "Le plat ne respecte pas le bon format" ));
+		lecture.lectureListe( "testFormatPlatIncorrect.txt" );
+		assertTrue( lecture.listeErreurs.contains( "Le plat ne respecte pas le bon format" ) );
 	}
-	
+
 	@Test
 	public void testFormatCommandeIncorrect() throws IOException {
-		lecture.lectureListe("testFormatCommandeIncorrect.txt");
-		assertTrue(lecture.listeErreurs.contains( "La commande ne respecte pas le bon format" ));
+		lecture.lectureListe( "testFormatCommandeIncorrect.txt" );
+		assertTrue( lecture.listeErreurs.contains( "La commande ne respecte pas le bon format" ) );
 	}
-	
+
 	@Test(expected = NumberFormatException.class)
 	public void testFormatCommandeQuantiteIncorrect() throws IOException {
-		lecture.lectureListe("testFormatCommandeQuantiteIncorrect.txt");
+		lecture.lectureListe( "testFormatCommandeQuantiteIncorrect.txt" );
 	}
-	
+
 	@Test
 	public void testAffectationCommandeClient() {
-		Client clientAffectation = new Client("Gabriel");
+		Client clientAffectation = new Client( "Gabriel" );
 		lecture.listeClients.add( clientAffectation );
-		lecture.listeCommandes.add( new Commande("Gabriel", new Plat("Poutine", 10.00), 1) );
+		lecture.listeCommandes.add( new Commande( "Gabriel", new Plat( "Poutine", 10.00 ), 1 ) );
 		lecture.affecterCommandesAClients();
 		assertFalse( clientAffectation.getListeCommande().isEmpty() );
 	}
-	
+
 	@Test
 	public void testAffectationCommandeClientSansCommande() {
-		Client clientAffectation = new Client("Gabriel");
+		Client clientAffectation = new Client( "Gabriel" );
 		lecture.listeClients.add( clientAffectation );
-		lecture.listeCommandes.add( new Commande("Jean", new Plat("Poutine", 10.00), 1) );
+		lecture.listeCommandes.add( new Commande( "Jean", new Plat( "Poutine", 10.00 ), 1 ) );
 		lecture.affecterCommandesAClients();
 		assertTrue( clientAffectation.getListeCommande().isEmpty() );
 	}
+
+	
 	
 	
 
+	
 }

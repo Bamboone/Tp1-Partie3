@@ -1,0 +1,29 @@
+
+Erreurs:
+Le plat Poutine dans la commande n'existe pas.
+Le plat Frites dans la commande n'existe pas.
+Le plat Repas_Poulet dans la commande n'existe pas.
+Certaines commande n'ont pas pu être ajouté en raison d'erreurs
+Le plat Poutine dans la commande n'existe pas.
+Le plat Frites dans la commande n'existe pas.
+Le plat Repas_Poulet dans la commande n'existe pas.
+Certaines commande n'ont pas pu être ajouté en raison d'erreurs
+Le plat Poutine dans la commande n'existe pas.
+Le plat Frites dans la commande n'existe pas.
+Le plat Repas_Poulet dans la commande n'existe pas.
+Certaines commande n'ont pas pu être ajouté en raison d'erreurs
+Le plat Poutine dans la commande n'existe pas.
+Le plat Frites dans la commande n'existe pas.
+Le plat Repas_Poulet dans la commande n'existe pas.
+Certaines commande n'ont pas pu être ajouté en raison d'erreurs
+Le plat Poutine dans la commande n'existe pas.
+Le plat Frites dans la commande n'existe pas.
+Le plat Repas_Poulet dans la commande n'existe pas.
+Certaines commande n'ont pas pu être ajouté en raison d'erreurs
+Le plat Poutine dans la commande n'existe pas.
+Le plat Frites dans la commande n'existe pas.
+Le plat Repas_Poulet dans la commande n'existe pas.
+Certaines commande n'ont pas pu être ajouté en raison d'erreurs
+Bienvenue chez Barette!
+
+Factures:

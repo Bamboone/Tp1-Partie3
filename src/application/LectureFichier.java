@@ -157,7 +157,7 @@ public class LectureFichier {
 
 			if ( chercherClient( infoCommande[0] ) ) {
 
-				if ( chercherPlat( plat ) ) {
+				if ( chercherPlat( new Plat(infoCommande[1]) ) ) {
 					if ( infoCommande[1].equals( plat.getNom() ) ) {
 						if ( infoCommande.length == 3 ) {
 							try {
@@ -169,18 +169,20 @@ public class LectureFichier {
 								throw new NumberFormatException();
 							}
 						} else {
-							listeErreurs.add( "La commande ne respecte pas le bon format" );
+							listeErreurs.add( "La commande du client" + infoCommande[0] + "ne respecte pas le bon format" );
 							break;
 						}
 					}
 
 				} else {
 
-					listeErreurs.add( "Le plat " + plat.getNom() + " dans la commande n'existe pas." );
+					listeErreurs.add( "Le plat " + infoCommande[1] + " dans la commande n'existe pas." );
+					break;
 				}
 
 			} else {
 				listeErreurs.add( "Le nom du client " + infoCommande[0] + " dans la commande n'existe pas." );
+				break;
 			}
 		}
 
