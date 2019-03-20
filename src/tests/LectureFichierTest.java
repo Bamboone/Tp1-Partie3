@@ -98,6 +98,33 @@ public class LectureFichierTest {
 		assertTrue( clientAffectation.getListeCommande().isEmpty() );
 	}
 
+	@Test
+	public void testAjouterCommandePlatInexistant() {
+		lecture.listePlats.add( new Plat( "Pâtes", 8.00 ) );
+		lecture.ajouterCommandes( "Gabriel Poutine 2" );
+		assertTrue( lecture.listeCommandes.isEmpty() );
+	}
+	
+	@Test
+	public void testAjouterCommandePlatExistant() {
+		lecture.listePlats.add( new Plat( "Pâtes", 8.00 ) );
+		lecture.ajouterCommandes( "Gabriel Pâtes 2" );
+		assertFalse( lecture.listeCommandes.isEmpty() );
+	}
+	
+	@Test
+	public void testAjouterCommandeClientInexistant() {
+		lecture.listeClients.add( new Client("Jean") );
+		lecture.ajouterCommandes( "Gabriel Poutine 2" );
+		assertTrue( lecture.listeCommandes.isEmpty() );
+	}
+	
+	@Test
+	public void testAjouterCommandeClientExistant() {
+		lecture.listeClients.add( new Client("Gabriel") );
+		lecture.ajouterCommandes( "Gabriel Poutine 2" );
+		assertFalse( lecture.listeCommandes.isEmpty() );
+	}
 	
 	
 	
