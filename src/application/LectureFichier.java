@@ -42,7 +42,7 @@ public class LectureFichier {
 				if ( ligne.split( " " ).length == 1 ) {
 					listeClients.add( new Client( ligne ) );
 				} else {
-					listeErreurs.add( "Le client ne respecte pas le bon format" );
+					listeErreurs.add( "\nLe client ne respecte pas le bon format" );
 				}
 
 			}
@@ -55,12 +55,12 @@ public class LectureFichier {
 					try {
 						listePlats.add( new Plat( infoPlat[0], Double.parseDouble( infoPlat[1] ) ) );
 					} catch ( NumberFormatException ex ) {
-						listeErreurs.add( "Le prix du plat ne respecte pas le bon format" );
+						listeErreurs.add( "\nLe prix du plat ne respecte pas le bon format" );
 						throw new NumberFormatException();
 					}
 
 				} else {
-					listeErreurs.add( "Le plat ne respecte pas le bon format" );
+					listeErreurs.add( "\nLe plat " + infoPlat[0] + " ne respecte pas le bon format" );
 				}
 
 			}
@@ -72,7 +72,7 @@ public class LectureFichier {
 
 				if ( !platTrouve ) {
 
-					listeErreurs.add( "Certaines commande n'ont pas pu être ajouté en raison d'erreurs" );
+					listeErreurs.add( "\nCertaines commande n'ont pas pu être ajouté en raison d'erreurs" );
 				}
 
 			}
@@ -83,7 +83,7 @@ public class LectureFichier {
 
 		} else {
 
-			listeErreurs.add( "Le fichier ne respecte pas le bon format." );
+			listeErreurs.add( "\nLe fichier ne respecte pas le bon format." );
 		}
 
 		ficLecture.close();
@@ -99,9 +99,9 @@ public class LectureFichier {
 		NumberFormat formatArgent = NumberFormat.getCurrencyInstance();
 
 		if ( !listeErreurs.isEmpty() ) {
-			ficEcriture.write( "\nErreurs:" );
+			ficEcriture.write( "Erreurs:" );
 			ficEcriture.newLine();
-
+			System.out.println("Erreurs:");
 			for ( String erreur : listeErreurs ) {
 				System.out.println( erreur );
 				ficEcriture.write( erreur );
@@ -109,11 +109,11 @@ public class LectureFichier {
 			}
 		}
 
-		ficEcriture.write( "Bienvenue chez Barette!" );
+		ficEcriture.write( "\nBienvenue chez Barette!" );
 		ficEcriture.newLine();
 		ficEcriture.write( "\nFactures:" );
 		ficEcriture.newLine();
-		System.out.println( "Bienvenue chez Barette!" );
+		System.out.println( "\nBienvenue chez Barette!" );
 		System.out.println( "\nFactures:" );
 
 		for ( Client client : listeClients ) {
@@ -130,7 +130,7 @@ public class LectureFichier {
 				System.out.println( client.getNom() + " " + formatArgent.format( totalFacture ) );
 			}
 		}
-
+		System.out.println();
 		ficEcriture.close();
 	}
 
@@ -165,23 +165,23 @@ public class LectureFichier {
 										new Commande( infoCommande[0], plat, Integer.parseInt( infoCommande[2] ) ) );
 								platTrouve = true;
 							} catch ( NumberFormatException ex ) {
-								listeErreurs.add( "La quantité de la commande ne respecte pas le bon format" );
+								listeErreurs.add( "\nLa quantité de la commande ne respecte pas le bon format" );
 								throw new NumberFormatException();
 							}
 						} else {
-							listeErreurs.add( "La commande du client" + infoCommande[0] + "ne respecte pas le bon format" );
+							listeErreurs.add( "\nLa commande du client " + infoCommande[0] + " ne respecte pas le bon format" );
 							break;
 						}
 					}
 
 				} else {
 
-					listeErreurs.add( "Le plat " + infoCommande[1] + " dans la commande n'existe pas." );
+					listeErreurs.add( "\nLe plat " + infoCommande[1] + " dans la commande n'existe pas." );
 					break;
 				}
 
 			} else {
-				listeErreurs.add( "Le nom du client " + infoCommande[0] + " dans la commande n'existe pas." );
+				listeErreurs.add( "\nLe nom du client " + infoCommande[0] + " dans la commande n'existe pas." );
 				break;
 			}
 		}

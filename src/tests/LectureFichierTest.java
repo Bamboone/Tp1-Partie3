@@ -47,13 +47,13 @@ public class LectureFichierTest {
 	}
 
 	@Test
-	public void TestPlatExistePas() {
+	public void testPlatExistePas() {
 		lecture.listePlats.add( new Plat( "Poutine", 10 ) );
 		assertFalse( lecture.chercherPlat( new Plat( "Pâtes", 8 ) ) );
 	}
 
 	@Test
-	public void TestPlatExiste() {
+	public void testPlatExiste() {
 		lecture.listePlats.add( new Plat( "Poutine", 10 ) );
 		assertTrue( lecture.chercherPlat( lecture.listePlats.get( 0 ) ) );
 	}
@@ -66,13 +66,13 @@ public class LectureFichierTest {
 	@Test
 	public void testFormatPlatIncorrect() throws IOException {
 		lecture.lectureListe( "testFormatPlatIncorrect.txt" );
-		assertTrue( lecture.listeErreurs.contains( "Le plat ne respecte pas le bon format" ) );
+		assertTrue( lecture.listeErreurs.contains( "\nLe plat Poutine ne respecte pas le bon format" ) );
 	}
 
 	@Test
 	public void testFormatCommandeIncorrect() throws IOException {
 		lecture.lectureListe( "testFormatCommandeIncorrect.txt" );
-		assertTrue( lecture.listeErreurs.contains( "La commande ne respecte pas le bon format" ) );
+		assertTrue( lecture.listeErreurs.contains( "\nLa commande du client Roger ne respecte pas le bon format" ) );
 	}
 
 	@Test(expected = NumberFormatException.class)
@@ -100,16 +100,10 @@ public class LectureFichierTest {
 
 	@Test
 	public void testAjouterCommandePlatInexistant() {
+		lecture.listeClients.add( new Client("Gabriel") );
 		lecture.listePlats.add( new Plat( "Pâtes", 8.00 ) );
 		lecture.ajouterCommandes( "Gabriel Poutine 2" );
 		assertTrue( lecture.listeCommandes.isEmpty() );
-	}
-	
-	@Test
-	public void testAjouterCommandePlatExistant() {
-		lecture.listePlats.add( new Plat( "Pâtes", 8.00 ) );
-		lecture.ajouterCommandes( "Gabriel Pâtes 2" );
-		assertFalse( lecture.listeCommandes.isEmpty() );
 	}
 	
 	@Test
@@ -120,10 +114,16 @@ public class LectureFichierTest {
 	}
 	
 	@Test
-	public void testAjouterCommandeClientExistant() {
+	public void testAjouterCommandeClientPlatExistant() {
 		lecture.listeClients.add( new Client("Gabriel") );
-		lecture.ajouterCommandes( "Gabriel Poutine 2" );
+		lecture.listePlats.add( new Plat( "Pâtes", 8.00 ) );
+		lecture.ajouterCommandes( "Gabriel Pâtes 2" );
 		assertFalse( lecture.listeCommandes.isEmpty() );
+	}
+	
+	@Test
+	public void testFichierSansEnteteClient() throws IOException {
+		lecture.lectureListe("testFichierSansEnteteClient.txt");
 	}
 	
 	
