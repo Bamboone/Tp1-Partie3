@@ -1,0 +1,10 @@
+Specifications:
+
+Afficher la sortie dans le terminal:
+	- Afficher la facture du client dans le terminal et dans un fichier
+
+Ajouter la date et heure de la facture dans le nom du fichier
+	- Changer le nom du fichier pour Facture-du-date-heure.txt
+
+Appliquer les taxes du prix des factures.
+	-Modifier la méthode calculerPrix() de la classe Commande en y ajoutant la TPS(5%) et la TVQ(10%)
