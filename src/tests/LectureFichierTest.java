@@ -32,13 +32,6 @@ public class LectureFichierTest {
 		lecture.listePlats = new ArrayList<>();
 	}
 	
-	@After
-	public void tearDown() {
-		lecture.listeClients = new ArrayList<>();
-		lecture.listeCommandes = new ArrayList<>();
-		lecture.listePlats = new ArrayList<>();
-	}
-	
 	@Test
 	public void testClientExistePas() {
 		lecture.listeClients.add(new Client("Paul"));
@@ -87,6 +80,23 @@ public class LectureFichierTest {
 		lecture.lectureListe("testFormatCommandeQuantiteIncorrect.txt");
 	}
 	
+	@Test
+	public void testAffectationCommandeClient() {
+		Client clientAffectation = new Client("Gabriel");
+		lecture.listeClients.add( clientAffectation );
+		lecture.listeCommandes.add( new Commande("Gabriel", new Plat("Poutine", 10.00), 1) );
+		lecture.affecterCommandesAClients();
+		assertFalse( clientAffectation.getListeCommande().isEmpty() );
+	}
+	
+	@Test
+	public void testAffectationCommandeClientSansCommande() {
+		Client clientAffectation = new Client("Gabriel");
+		lecture.listeClients.add( clientAffectation );
+		lecture.listeCommandes.add( new Commande("Jean", new Plat("Poutine", 10.00), 1) );
+		lecture.affecterCommandesAClients();
+		assertTrue( clientAffectation.getListeCommande().isEmpty() );
+	}
 	
 	
 
