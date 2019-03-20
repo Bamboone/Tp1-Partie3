@@ -1,3 +1,4 @@
+package application;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,14 +11,22 @@ import java.text.*;
 
 public class LectureFichier {
 	
-	private ArrayList<Client> listeClients = new ArrayList<>();
-	private ArrayList<Plat> listePlats = new ArrayList<>();
-	private ArrayList<Commande> listeCommandes = new ArrayList<>();
+	public ArrayList<Client> listeClients = new ArrayList<>();
+	public ArrayList<Plat> listePlats = new ArrayList<>();
+	public ArrayList<Commande> listeCommandes = new ArrayList<>();
 
-	public LectureFichier() throws IOException {
+	public LectureFichier() {
+			try {
+	            lectureListe( "Liste.txt" );
+	        } catch ( IOException e ) {
+	            e.printStackTrace();
+	        }
+		
 
-		Path chemin = Paths.get( "Liste.txt" );
-		BufferedReader ficLecture = Files.newBufferedReader( chemin, Charset.forName( "UTF-8" ) );
+	}
+	public void lectureListe(String chemin) throws IOException {
+		Path path = Paths.get(chemin);
+		BufferedReader ficLecture = Files.newBufferedReader( path, Charset.forName( "UTF-8" ) );
 		
 		String ligne = "";
 
@@ -67,10 +76,9 @@ public class LectureFichier {
 
 		ficLecture.close();
 		
-
 	}
 
-	private void ecrireFacture() throws IOException {
+	public void ecrireFacture() throws IOException {
 		
 		Path cheminEcriture = Paths.get( "Facture.txt" );
 		BufferedWriter ficEcriture = Files.newBufferedWriter( cheminEcriture, Charset.forName( "UTF-8" ) );
@@ -99,7 +107,7 @@ public class LectureFichier {
 		ficEcriture.close();
 	}
 
-	private void affecterCommandesAClients() {
+	public void affecterCommandesAClients() {
 		
 		for ( Client client : listeClients ) {
 
@@ -113,7 +121,7 @@ public class LectureFichier {
 		}
 	}
 
-	private Boolean ajouterCommandes( String ligne ) {
+	public Boolean ajouterCommandes( String ligne ) {
 		
 		String[] infoCommande = ligne.split( " " );
 		Boolean platTrouve = false;
