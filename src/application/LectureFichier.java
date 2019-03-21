@@ -42,38 +42,23 @@ public class LectureFichier {
 				// Lecture des clients.
 				while ( !( ligne = ficLecture.readLine() ).equals( "Plats :" )) {
 
-					if ( ligne.split( " " ).length == 1 ) {
-						listeClients.add( new Client( ligne ) );
-					} else {
-						listeErreurs.add( "\nLe client " + ligne + " ne respecte pas le bon format" );
-					}
+					ajouterClient(ligne);
 
 				}
 
 				// Lecture des plats.
 				while ( !( ligne = ficLecture.readLine() ).equals( "Commandes :" ) ) {
 
-					String[] infoPlat = ligne.split( " " );
-					if ( infoPlat.length == 2 ) {
-						try {
-							listePlats.add( new Plat( infoPlat[0], Double.parseDouble( infoPlat[1] ) ) );
-						} catch ( NumberFormatException ex ) {
-							listeErreurs.add( "\nLe prix du plat " + infoPlat[0] + " ne respecte pas le bon format" );
-							throw new NumberFormatException();
-						}
-
-					} else {
-						listeErreurs.add( "\nLe plat " + infoPlat[0] + " ne respecte pas le bon format" );
-					}
+					ajouterPlat(ligne);
 
 				}
 
 				// Lecture des commandes.
 				while ( !( ligne = ficLecture.readLine() ).equals( "Fin" ) ) {
 
-					boolean platTrouve = ajouterCommandes( ligne );
+					boolean commandesValide = ajouterCommandes( ligne );
 
-					if ( !platTrouve ) {
+					if ( !commandesValide ) {
 
 						listeErreurs.add( "\nCertaines commande n'ont pas pu être ajouté en raison d'erreurs" );
 					}
@@ -91,10 +76,34 @@ public class LectureFichier {
 
 			listeErreurs.add( "\nLe fichier ne respecte pas le bon format." );
 		}
-
+		
 		ecrireFacture();
 		afficherFacture();
 		ficLecture.close();
+
+	}
+	
+	public void ajouterClient(String ligne) {
+		if ( ligne.split( " " ).length == 1 ) {
+			listeClients.add( new Client( ligne ) );
+		} else {
+			listeErreurs.add( "\nLe client " + ligne + " ne respecte pas le bon format" );
+		}
+	}
+	
+	public void ajouterPlat(String ligne) {
+		String[] infoPlat = ligne.split( " " );
+		if ( infoPlat.length == 2 ) {
+			try {
+				listePlats.add( new Plat( infoPlat[0], Double.parseDouble( infoPlat[1] ) ) );
+			} catch ( NumberFormatException ex ) {
+				listeErreurs.add( "\nLe prix du plat " + infoPlat[0] + " ne respecte pas le bon format" );
+				throw new NumberFormatException();
+			}
+
+		} else {
+			listeErreurs.add( "\nLe plat " + infoPlat[0] + " ne respecte pas le bon format" );
+		}
 	}
 	
 	public void afficherFacture() {
@@ -106,22 +115,25 @@ public class LectureFichier {
 				System.out.println( erreur );
 			}
 		}
-		System.out.println( "\nBienvenue chez Barette!" );
-		System.out.println( "\nFactures:" );
+		if(!listeClients.isEmpty() && !listePlats.isEmpty() && !listeCommandes.isEmpty()) {
+			System.out.println( "\nBienvenue chez Barette!" );
+			System.out.println( "\nFactures:" );
 
-		for ( Client client : listeClients ) {
+			for ( Client client : listeClients ) {
 
-			totalFacture = 0;
+				totalFacture = 0;
 
-			for ( Commande commande : client.getListeCommande() ) {
+				for ( Commande commande : client.getListeCommande() ) {
 
-				totalFacture += commande.calculerPrix();
+					totalFacture += commande.calculerPrix();
+				}
+				if ( totalFacture != 0 ) {
+					System.out.println( client.getNom() + " " + formatArgent.format( totalFacture ) );
+				}
 			}
-			if ( totalFacture != 0 ) {
-				System.out.println( client.getNom() + " " + formatArgent.format( totalFacture ) );
-			}
+			System.out.println();
 		}
-		System.out.println();
+		
 	}
 
 	public void ecrireFacture() throws IOException {
@@ -142,24 +154,28 @@ public class LectureFichier {
 			}
 		}
 
-		ficEcriture.write( "\nBienvenue chez Barette!" );
-		ficEcriture.newLine();
-		ficEcriture.write( "\nFactures:" );
-		ficEcriture.newLine();
+		
+		if(!listeClients.isEmpty() && !listePlats.isEmpty() && !listeCommandes.isEmpty()) {
+			ficEcriture.write( "\nBienvenue chez Barette!" );
+			ficEcriture.newLine();
+			ficEcriture.write( "\nFactures:" );
+			ficEcriture.newLine();
 
-		for ( Client client : listeClients ) {
+			for ( Client client : listeClients ) {
 
-			totalFacture = 0;
+				totalFacture = 0;
 
-			for ( Commande commande : client.getListeCommande() ) {
+				for ( Commande commande : client.getListeCommande() ) {
 
-				totalFacture += commande.calculerPrix();
-			}
-			if ( totalFacture != 0 ) {
-				ficEcriture.write( client.getNom() + " " + formatArgent.format( totalFacture ) );
-				ficEcriture.newLine();
+					totalFacture += commande.calculerPrix();
+				}
+				if ( totalFacture != 0 ) {
+					ficEcriture.write( client.getNom() + " " + formatArgent.format( totalFacture ) );
+					ficEcriture.newLine();
+				}
 			}
 		}
+		
 		ficEcriture.close();
 	}
 
@@ -180,7 +196,7 @@ public class LectureFichier {
 	public boolean ajouterCommandes( String ligne ) {
 
 		String[] infoCommande = ligne.split( " " );
-		boolean platTrouve = false;
+		boolean commandesValide = false;
 
 		for ( Plat plat : listePlats ) {
 
@@ -192,7 +208,7 @@ public class LectureFichier {
 							try {
 								listeCommandes.add(
 										new Commande( infoCommande[0], plat, Integer.parseInt( infoCommande[2] ) ) );
-								platTrouve = true;
+								commandesValide = true;
 							} catch ( NumberFormatException ex ) {
 								listeErreurs.add( "\nLa quantité de la commande du client " + infoCommande[0] + " ne respecte pas le bon format" );
 								throw new NumberFormatException();
@@ -215,7 +231,7 @@ public class LectureFichier {
 			}
 		}
 
-		return platTrouve;
+		return commandesValide;
 	}
 
 	public boolean chercherClient( String nomClient ) {
