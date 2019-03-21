@@ -106,6 +106,29 @@ public class LectureFichier {
 		}
 	}
 	
+	public void ajouterClient(String ligne) {
+		if ( ligne.split( " " ).length == 1 ) {
+			listeClients.add( new Client( ligne ) );
+		} else {
+			listeErreurs.add( "\nLe client " + ligne + " ne respecte pas le bon format" );
+		}
+	}
+	
+	public void ajouterPlat(String ligne) {
+		String[] infoPlat = ligne.split( " " );
+		if ( infoPlat.length == 2 ) {
+			try {
+				listePlats.add( new Plat( infoPlat[0], Double.parseDouble( infoPlat[1] ) ) );
+			} catch ( NumberFormatException ex ) {
+				listeErreurs.add( "\nLe prix du plat " + infoPlat[0] + " ne respecte pas le bon format" );
+				throw new NumberFormatException();
+			}
+
+		} else {
+			listeErreurs.add( "\nLe plat " + infoPlat[0] + " ne respecte pas le bon format" );
+		}
+	}
+	
 	public void afficherFacture() {
 		double totalFacture=0;
 		
