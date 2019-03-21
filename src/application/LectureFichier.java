@@ -79,7 +79,7 @@ public class LectureFichier {
 				}
 
 				affecterCommandesAClients();
-			}catch(Exception ex) {
+			}catch(NullPointerException ex) {
 				listeErreurs.add( "\nLe fichier ne respecte pas le bon format." );
 			}
 
