@@ -43,7 +43,7 @@ public class LectureFichier {
 					if ( ligne.split( " " ).length == 1 ) {
 						listeClients.add( new Client( ligne ) );
 					} else {
-						listeErreurs.add( "\nLe client ne respecte pas le bon format" );
+						listeErreurs.add( "\nLe client " + ligne + " ne respecte pas le bon format" );
 					}
 
 				}
@@ -56,12 +56,12 @@ public class LectureFichier {
 						try {
 							listePlats.add( new Plat( infoPlat[0], Double.parseDouble( infoPlat[1] ) ) );
 						} catch ( NumberFormatException ex ) {
-							listeErreurs.add( "\nLe prix du plat ne respecte pas le bon format" );
+							listeErreurs.add( "\nLe prix du plat " + infoPlat[0] + " ne respecte pas le bon format" );
 							throw new NumberFormatException();
 						}
 
 					} else {
-						listeErreurs.add( "\nLe plat " + ligne + " ne respecte pas le bon format" );
+						listeErreurs.add( "\nLe plat " + infoPlat[0] + " ne respecte pas le bon format" );
 					}
 
 				}
@@ -170,7 +170,7 @@ public class LectureFichier {
 										new Commande( infoCommande[0], plat, Integer.parseInt( infoCommande[2] ) ) );
 								platTrouve = true;
 							} catch ( NumberFormatException ex ) {
-								listeErreurs.add( "\nLa quantité de la commande ne respecte pas le bon format" );
+								listeErreurs.add( "\nLa quantité de la commande du client " + infoCommande[0] + " ne respecte pas le bon format" );
 								throw new NumberFormatException();
 							}
 						} else {
