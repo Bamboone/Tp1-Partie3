@@ -124,6 +124,7 @@ public class LectureFichierTest {
 	@Test
 	public void testFichierSansEnteteClient() throws IOException {
 		lecture.lectureListe("testFichierSansEnteteClient.txt");
+		assertTrue(lecture.listeErreurs.contains( "Le fichier ne respecte pas le bon format." ));
 	}
 	
 	

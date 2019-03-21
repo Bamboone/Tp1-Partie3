@@ -37,7 +37,7 @@ public class LectureFichier {
 		if ( ( ligne = ficLecture.readLine() ).equals( "Clients :" ) ) {
 
 			// Lecture des clients.
-			while ( !( ligne = ficLecture.readLine() ).equals( "Plats :" ) ) {
+			while ( !( ligne = ficLecture.readLine() ).equals( "Plats :" )) {
 
 				if ( ligne.split( " " ).length == 1 ) {
 					listeClients.add( new Client( ligne ) );
