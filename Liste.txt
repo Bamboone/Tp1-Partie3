@@ -2,6 +2,7 @@ Clients :
 Roger
 Céline
 Steeve
+Plats :
 Poutine 10.5
 Frites 2.5
 Repas_Poulet 15.75
