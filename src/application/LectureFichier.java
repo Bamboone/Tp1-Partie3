@@ -18,7 +18,7 @@ public class LectureFichier {
 	public ArrayList<Commande> listeCommandes = new ArrayList<>();
 	public ArrayList<String> listeErreurs = new ArrayList<>();
 
-	public LectureFichier() {
+	public LectureFichier() { 
 			try {
 	            lectureListe( "Liste.txt" );
 	        } catch ( IOException e ) {
