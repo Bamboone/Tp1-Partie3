@@ -36,56 +36,61 @@ public class LectureFichier {
 
 		if ( ( ligne = ficLecture.readLine() ).equals( "Clients :" ) ) {
 
-			// Lecture des clients.
-			while ( !( ligne = ficLecture.readLine() ).equals( "Plats :" )) {
+			try {
+				// Lecture des clients.
+				while ( !( ligne = ficLecture.readLine() ).equals( "Plats :" )) {
 
-				if ( ligne.split( " " ).length == 1 ) {
-					listeClients.add( new Client( ligne ) );
-				} else {
-					listeErreurs.add( "\nLe client ne respecte pas le bon format" );
-				}
-
-			}
-
-			// Lecture des plats.
-			while ( !( ligne = ficLecture.readLine() ).equals( "Commandes :" ) ) {
-
-				String[] infoPlat = ligne.split( " " );
-				if ( infoPlat.length == 2 ) {
-					try {
-						listePlats.add( new Plat( infoPlat[0], Double.parseDouble( infoPlat[1] ) ) );
-					} catch ( NumberFormatException ex ) {
-						listeErreurs.add( "\nLe prix du plat ne respecte pas le bon format" );
-						throw new NumberFormatException();
+					if ( ligne.split( " " ).length == 1 ) {
+						listeClients.add( new Client( ligne ) );
+					} else {
+						listeErreurs.add( "\nLe client ne respecte pas le bon format" );
 					}
 
-				} else {
-					listeErreurs.add( "\nLe plat " + infoPlat[0] + " ne respecte pas le bon format" );
 				}
 
-			}
+				// Lecture des plats.
+				while ( !( ligne = ficLecture.readLine() ).equals( "Commandes :" ) ) {
 
-			// Lecture des commandes.
-			while ( !( ligne = ficLecture.readLine() ).equals( "Fin" ) ) {
+					String[] infoPlat = ligne.split( " " );
+					if ( infoPlat.length == 2 ) {
+						try {
+							listePlats.add( new Plat( infoPlat[0], Double.parseDouble( infoPlat[1] ) ) );
+						} catch ( NumberFormatException ex ) {
+							listeErreurs.add( "\nLe prix du plat ne respecte pas le bon format" );
+							throw new NumberFormatException();
+						}
 
-				boolean platTrouve = ajouterCommandes( ligne );
+					} else {
+						listeErreurs.add( "\nLe plat " + ligne + " ne respecte pas le bon format" );
+					}
 
-				if ( !platTrouve ) {
-
-					listeErreurs.add( "\nCertaines commande n'ont pas pu être ajouté en raison d'erreurs" );
 				}
 
+				// Lecture des commandes.
+				while ( !( ligne = ficLecture.readLine() ).equals( "Fin" ) ) {
+
+					boolean platTrouve = ajouterCommandes( ligne );
+
+					if ( !platTrouve ) {
+
+						listeErreurs.add( "\nCertaines commande n'ont pas pu être ajouté en raison d'erreurs" );
+					}
+
+				}
+
+				affecterCommandesAClients();
+			}catch(Exception ex) {
+				listeErreurs.add( "\nLe fichier ne respecte pas le bon format." );
 			}
 
-			affecterCommandesAClients();
-
-			ecrireFacture();
+			
 
 		} else {
 
 			listeErreurs.add( "\nLe fichier ne respecte pas le bon format." );
 		}
 
+		ecrireFacture();
 		ficLecture.close();
 	}
 
