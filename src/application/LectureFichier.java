@@ -17,6 +17,8 @@ public class LectureFichier {
 	public ArrayList<Plat> listePlats = new ArrayList<>();
 	public ArrayList<Commande> listeCommandes = new ArrayList<>();
 	public ArrayList<String> listeErreurs = new ArrayList<>();
+	
+	NumberFormat formatArgent = NumberFormat.getCurrencyInstance();
 
 	public LectureFichier() { 
 			try {
@@ -91,33 +93,19 @@ public class LectureFichier {
 		}
 
 		ecrireFacture();
+		afficherFacture();
 		ficLecture.close();
 	}
-
-	public void ecrireFacture() throws IOException {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern( "yyyy-MM-dd_HH'h'mm" );
-		LocalDateTime date = LocalDateTime.now();
-		Path cheminEcriture = Paths.get( "Facture-du-" + dtf.format( date ) + ".txt" );
-		BufferedWriter ficEcriture = Files.newBufferedWriter( cheminEcriture, Charset.forName( "UTF-8" ) );
-
-		double totalFacture;
-		NumberFormat formatArgent = NumberFormat.getCurrencyInstance();
-
+	
+	public void afficherFacture() {
+		double totalFacture=0;
+		
 		if ( !listeErreurs.isEmpty() ) {
-			ficEcriture.write( "Erreurs:" );
-			ficEcriture.newLine();
 			System.out.println("Erreurs:");
 			for ( String erreur : listeErreurs ) {
 				System.out.println( erreur );
-				ficEcriture.write( erreur );
-				ficEcriture.newLine();
 			}
 		}
-
-		ficEcriture.write( "\nBienvenue chez Barette!" );
-		ficEcriture.newLine();
-		ficEcriture.write( "\nFactures:" );
-		ficEcriture.newLine();
 		System.out.println( "\nBienvenue chez Barette!" );
 		System.out.println( "\nFactures:" );
 
@@ -130,12 +118,48 @@ public class LectureFichier {
 				totalFacture += commande.calculerPrix();
 			}
 			if ( totalFacture != 0 ) {
-				ficEcriture.write( client.getNom() + " " + formatArgent.format( totalFacture ) );
-				ficEcriture.newLine();
 				System.out.println( client.getNom() + " " + formatArgent.format( totalFacture ) );
 			}
 		}
 		System.out.println();
+	}
+
+	public void ecrireFacture() throws IOException {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern( "yyyy-MM-dd_HH'h'mm" );
+		LocalDateTime date = LocalDateTime.now();
+		Path cheminEcriture = Paths.get( "Facture-du-" + dtf.format( date ) + ".txt" );
+		BufferedWriter ficEcriture = Files.newBufferedWriter( cheminEcriture, Charset.forName( "UTF-8" ) );
+
+		double totalFacture;
+
+
+		if ( !listeErreurs.isEmpty() ) {
+			ficEcriture.write( "Erreurs:" );
+			ficEcriture.newLine();
+			for ( String erreur : listeErreurs ) {
+				ficEcriture.write( erreur );
+				ficEcriture.newLine();
+			}
+		}
+
+		ficEcriture.write( "\nBienvenue chez Barette!" );
+		ficEcriture.newLine();
+		ficEcriture.write( "\nFactures:" );
+		ficEcriture.newLine();
+
+		for ( Client client : listeClients ) {
+
+			totalFacture = 0;
+
+			for ( Commande commande : client.getListeCommande() ) {
+
+				totalFacture += commande.calculerPrix();
+			}
+			if ( totalFacture != 0 ) {
+				ficEcriture.write( client.getNom() + " " + formatArgent.format( totalFacture ) );
+				ficEcriture.newLine();
+			}
+		}
 		ficEcriture.close();
 	}
 
