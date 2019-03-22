@@ -1,4 +1,5 @@
 package application;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,23 +13,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class LectureFichier {
-	
+
 	public ArrayList<Client> listeClients = new ArrayList<>();
 	public ArrayList<Plat> listePlats = new ArrayList<>();
 	public ArrayList<Commande> listeCommandes = new ArrayList<>();
 	public ArrayList<String> listeErreurs = new ArrayList<>();
-	
+
 	NumberFormat formatArgent = NumberFormat.getCurrencyInstance();
 
-	public LectureFichier() { 
-			try {
-	            lectureListe( "Liste.txt" );
-	        } catch ( IOException e ) {
-	            e.printStackTrace();
-	        }
-		
+	public LectureFichier() {
+		try {
+			lectureListe( "Liste.txt" );
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		}
 
 	}
+
 	public void lectureListe( String chemin ) throws IOException {
 
 		Path path = Paths.get( chemin );
@@ -40,16 +41,16 @@ public class LectureFichier {
 
 			try {
 				// Lecture des clients.
-				while ( !( ligne = ficLecture.readLine() ).equals( "Plats :" )) {
+				while ( !( ligne = ficLecture.readLine() ).equals( "Plats :" ) ) {
 
-					ajouterClient(ligne);
+					ajouterClient( ligne );
 
 				}
 
 				// Lecture des plats.
 				while ( !( ligne = ficLecture.readLine() ).equals( "Commandes :" ) ) {
 
-					ajouterPlat(ligne);
+					ajouterPlat( ligne );
 
 				}
 
@@ -66,11 +67,9 @@ public class LectureFichier {
 				}
 
 				affecterCommandesAClients();
-			}catch(NullPointerException ex) {
+			} catch ( NullPointerException ex ) {
 				listeErreurs.add( "\nLe fichier ne respecte pas le bon format." );
 			}
-
-			
 
 		} else {
 
@@ -80,17 +79,19 @@ public class LectureFichier {
 		ecrireFacture();
 		afficherFacture();
 		ficLecture.close();
+
 	}
-	
-	public void ajouterClient(String ligne) {
+
+	public void ajouterClient( String ligne ) {
 		if ( ligne.split( " " ).length == 1 ) {
 			listeClients.add( new Client( ligne ) );
 		} else {
 			listeErreurs.add( "\nLe client " + ligne + " ne respecte pas le bon format" );
 		}
+
 	}
-	
-	public void ajouterPlat(String ligne) {
+
+	public void ajouterPlat( String ligne ) {
 		String[] infoPlat = ligne.split( " " );
 		if ( infoPlat.length == 2 ) {
 			try {
@@ -104,32 +105,35 @@ public class LectureFichier {
 			listeErreurs.add( "\nLe plat " + infoPlat[0] + " ne respecte pas le bon format" );
 		}
 	}
-	
+
 	public void afficherFacture() {
-		double totalFacture=0;
-		
+		double totalFacture = 0;
+
 		if ( !listeErreurs.isEmpty() ) {
-			System.out.println("Erreurs:");
+			System.out.println( "Erreurs:" );
 			for ( String erreur : listeErreurs ) {
 				System.out.println( erreur );
 			}
 		}
-		System.out.println( "\nBienvenue chez Barette!" );
-		System.out.println( "\nFactures:" );
+		if ( !listeClients.isEmpty() && !listePlats.isEmpty() && !listeCommandes.isEmpty() ) {
+			System.out.println( "\nBienvenue chez Barette!" );
+			System.out.println( "\nFactures:" );
 
-		for ( Client client : listeClients ) {
+			for ( Client client : listeClients ) {
 
-			totalFacture = 0;
+				totalFacture = 0;
 
-			for ( Commande commande : client.getListeCommande() ) {
+				for ( Commande commande : client.getListeCommande() ) {
 
-				totalFacture += commande.calculerPrix();
+					totalFacture += commande.calculerPrix();
+				}
+				if ( totalFacture != 0 ) {
+					System.out.println( client.getNom() + " " + formatArgent.format( totalFacture ) );
+				}
 			}
-			if ( totalFacture != 0 ) {
-				System.out.println( client.getNom() + " " + formatArgent.format( totalFacture ) );
-			}
+			System.out.println();
 		}
-		System.out.println();
+
 	}
 
 	public void ecrireFacture() throws IOException {
@@ -140,7 +144,6 @@ public class LectureFichier {
 
 		double totalFacture;
 
-
 		if ( !listeErreurs.isEmpty() ) {
 			ficEcriture.write( "Erreurs:" );
 			ficEcriture.newLine();
@@ -150,24 +153,27 @@ public class LectureFichier {
 			}
 		}
 
-		ficEcriture.write( "\nBienvenue chez Barette!" );
-		ficEcriture.newLine();
-		ficEcriture.write( "\nFactures:" );
-		ficEcriture.newLine();
+		if ( !listeClients.isEmpty() && !listePlats.isEmpty() && !listeCommandes.isEmpty() ) {
+			ficEcriture.write( "\nBienvenue chez Barette!" );
+			ficEcriture.newLine();
+			ficEcriture.write( "\nFactures:" );
+			ficEcriture.newLine();
 
-		for ( Client client : listeClients ) {
+			for ( Client client : listeClients ) {
 
-			totalFacture = 0;
+				totalFacture = 0;
 
-			for ( Commande commande : client.getListeCommande() ) {
+				for ( Commande commande : client.getListeCommande() ) {
 
-				totalFacture += commande.calculerPrix();
-			}
-			if ( totalFacture != 0 ) {
-				ficEcriture.write( client.getNom() + " " + formatArgent.format( totalFacture ) );
-				ficEcriture.newLine();
+					totalFacture += commande.calculerPrix();
+				}
+				if ( totalFacture != 0 ) {
+					ficEcriture.write( client.getNom() + " " + formatArgent.format( totalFacture ) );
+					ficEcriture.newLine();
+				}
 			}
 		}
+
 		ficEcriture.close();
 	}
 
@@ -194,7 +200,7 @@ public class LectureFichier {
 
 			if ( chercherClient( infoCommande[0] ) ) {
 
-				if ( chercherPlat( new Plat(infoCommande[1]) ) ) {
+				if ( chercherPlat( new Plat( infoCommande[1] ) ) ) {
 					if ( infoCommande[1].equals( plat.getNom() ) ) {
 						if ( infoCommande.length == 3 ) {
 							try {
@@ -202,11 +208,13 @@ public class LectureFichier {
 										new Commande( infoCommande[0], plat, Integer.parseInt( infoCommande[2] ) ) );
 								commandesValide = true;
 							} catch ( NumberFormatException ex ) {
-								listeErreurs.add( "\nLa quantité de la commande du client " + infoCommande[0] + " ne respecte pas le bon format" );
+								listeErreurs.add( "\nLa quantité de la commande du client " + infoCommande[0]
+										+ " ne respecte pas le bon format" );
 								throw new NumberFormatException();
 							}
 						} else {
-							listeErreurs.add( "\nLa commande du client " + infoCommande[0] + " ne respecte pas le bon format" );
+							listeErreurs.add(
+									"\nLa commande du client " + infoCommande[0] + " ne respecte pas le bon format" );
 							break;
 						}
 					}
