@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -19,8 +20,10 @@ public class LectureFichierTest {
 	private LectureFichier lecture = new LectureFichier();
 
 	@Mock
-	Client client;
 	Plat plat;
+	@Mock
+	Client client;
+	@Mock
 	Commande commande;
 
 	@Before
@@ -52,8 +55,9 @@ public class LectureFichierTest {
 
 	@Test
 	public void testPlatExiste() {
-		lecture.listePlats.add( new Plat( "Poutine", 10 ) );
-		assertTrue( lecture.chercherPlat( lecture.listePlats.get( 0 ) ) );
+		lecture.listePlats.add( plat );
+		Mockito.when(plat.getNom()).thenReturn("Poutine");
+		assertTrue( lecture.chercherPlat( plat ) );
 	}
 
 	@Test(expected = NumberFormatException.class)
@@ -80,11 +84,14 @@ public class LectureFichierTest {
 
 	@Test
 	public void testAffectationCommandeClient() {
-		Client clientAffectation = new Client( "Gabriel" );
-		lecture.listeClients.add( clientAffectation );
-		lecture.listeCommandes.add( new Commande( "Gabriel", new Plat( "Poutine", 10.00 ), 1 ) );
+		Mockito.when(client.getNom()).thenReturn("Gabriel");
+		Mockito.when(client.getListeCommande()).thenReturn(new ArrayList<Commande>());
+		Mockito.when(commande.getNomClient()).thenReturn("Gabriel");
+		lecture.listeClients.add( client );
+		lecture.listeCommandes.add( commande );
+		System.out.println( client.getNom() + commande.getNomClient() );
 		lecture.affecterCommandesAClients();
-		assertFalse( clientAffectation.getListeCommande().isEmpty() );
+		assertFalse( client.getListeCommande().isEmpty() );
 	}
 
 	@Test
@@ -113,10 +120,11 @@ public class LectureFichierTest {
 	
 	@Test
 	public void testAjouterCommandeClientPlatExistant() {
-		lecture.listeClients.add( new Client("Gabriel") );
-		lecture.listePlats.add( new Plat( "Pâtes", 8.00 ) );
-		lecture.ajouterCommandes( "Gabriel Pâtes 2" );
-		assertFalse( lecture.listeCommandes.isEmpty() );
+		Mockito.when(plat.getNom()).thenReturn("Pâtes");
+		Mockito.when(client.getNom()).thenReturn("Gabriel");
+		lecture.listeClients.add( client );
+		lecture.listePlats.add( plat );
+		assertTrue( lecture.ajouterCommandes( "Gabriel Pâtes 2" ) );
 	}
 	
 	@Test

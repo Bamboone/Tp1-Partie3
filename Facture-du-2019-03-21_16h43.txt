@@ -1,7 +1,0 @@
-Erreurs:
-
-Le fichier ne respecte pas le bon format.
-
-Bienvenue chez Barette!
-
-Factures:
